@@ -18,10 +18,9 @@ struct Options {
 	int playerX, playerY;
 	char playerModel;
 	int playerColor;
-	// Enemy data
-	int enemyX, enemyY;
-	char enemyModel;
-	int enemyColor;
+	// Finish data
+	char endModel;
+	int endColor;
 	// Item
 	int itemColor;
 	char itemModel;
@@ -112,7 +111,7 @@ void ShowMap(Options settings) {
 			}
 			else if (settings.Map[x][y] == 4) {
 				// End
-				SetColor(settings.enemyModel, settings.enemyColor);
+				SetColor(settings.endModel, settings.endColor);
 			}
 			else if (settings.Map[x][y] == 0) {
 				// Field
@@ -240,8 +239,8 @@ int main() {
 	settings.playerColor = 13;
 	settings.itemModel = 'P';
 	settings.itemColor = 14;
-	settings.enemyModel = 'F';
-	settings.enemyColor = 12;
+	settings.endModel = 'F';
+	settings.endColor = 12;
 
 	srand(time(NULL));
 	int count = 0;
