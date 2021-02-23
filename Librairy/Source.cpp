@@ -235,9 +235,9 @@ int main() {
 	settings.mapFieldTexture = '.';
 	settings.wallColor = 15;
 	settings.fieldColor = 8;
-	settings.playerModel = 'î';
+	settings.playerModel = 'O';
 	settings.playerColor = 13;
-	settings.itemModel = 'P';
+	settings.itemModel = 'I';
 	settings.itemColor = 14;
 	settings.endModel = 'F';
 	settings.endColor = 12;
