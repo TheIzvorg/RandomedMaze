@@ -4,58 +4,37 @@
 #include <ctime>;
 
 using namespace std;
-// Параметры игры
+// Game options
 struct Options {
 	int Map[21][21];
 	int mapY = sizeof(Map) / sizeof(Map[0]);
 	int mapX = sizeof(Map) / sizeof(Map[0][0]) / mapY;
-	// Текстура карты
+	// Map textures
 	char mapWallTexture,
 		mapFieldTexture;
-	// Цвет стен
 	int wallColor;
-	// Цвет поля
 	int fieldColor;
-	// Игрок
+	// Player data
 	int playerX, playerY;
 	char playerModel;
 	int playerColor;
-	// Игрок
+	// Enemy data
 	int enemyX, enemyY;
 	char enemyModel;
 	int enemyColor;
-	// Предмет
+	// Item
 	int itemColor;
 	char itemModel;
-	// Очки
+	// Scores
 	int score;
 	int Counter;
 };
+
 void SetColor(char symbol, int color) {
 	HANDLE _color = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(_color, color);
 	cout << symbol << " ";
 	SetConsoleTextAttribute(_color, 7);
-}
-
-void enemyMove(Options& settings) {
-	int buff[] = { settings.enemyX,settings.enemyY };
-	if (settings.playerX < settings.enemyX && settings.Map[settings.enemyX + 1][settings.enemyY] != 1) {
-		settings.enemyX++;
-		settings.Map[settings.enemyX][settings.enemyY] = 4;
-	}
-	if (settings.playerX > settings.enemyX && settings.Map[settings.enemyX - 1][settings.enemyY] != 1) {
-		settings.enemyX--;
-		settings.Map[settings.enemyX][settings.enemyY] = 4;
-	}
-	if (settings.playerY < settings.enemyY && settings.Map[settings.enemyX][settings.enemyY + 1] != 1) {
-		settings.enemyY++;
-		settings.Map[settings.enemyX][settings.enemyY] = 4;
-	}
-	if (settings.playerY < settings.enemyY && settings.Map[settings.enemyX][settings.enemyY - 1] != 1) {
-		settings.enemyY--;
-		settings.Map[settings.enemyX][settings.enemyY] = 4;
-	}
 }
 
 void movement(Options& settings) {
@@ -120,37 +99,37 @@ void ShowMap(Options settings) {
 	for (int y = 0; y < settings.mapY; y++) {
 		for (int x = 0; x < settings.mapX; x++) {
 			if (settings.Map[x][y] == 1) {
-				// Стены
+				// Walls
 				SetColor(settings.mapWallTexture, settings.wallColor);
 			}
 			else if (settings.Map[x][y] == 3) {
-				// Голова игрока
+				// Player
 				SetColor(settings.playerModel, settings.playerColor);
 			}
 			else if (settings.Map[x][y] == 2) {
-				// Предмет
+				// Items
 				SetColor(settings.itemModel, settings.itemColor);
 			}
 			else if (settings.Map[x][y] == 4) {
-				// Враг
+				// End
 				SetColor(settings.enemyModel, settings.enemyColor);
 			}
 			else if (settings.Map[x][y] == 0) {
-				// Поле
+				// Field
 				SetColor(settings.mapFieldTexture, settings.fieldColor);
 			}
 		}
 		cout << endl;
 	}
-	cout << "Управление: [A] Влево, [D] Вправо, [S] Вниз, [W] Вверх";
+	cout << "Control: [A] Left, [D] Right, [S] Down, [W] Up";
 }
 
 void Win() {
 	system("CLS");
-	cout << "|----------------------------------------------|\n"
-		 << "|---Поздравляем с победой в игре \"Либиринт\"!---|\n"
-		 << "|----------Игру сделал Рубанов О.Е.------------|\n"
-		 << "|----------------------------------------------|\n";
+	cout << "|---------------------------------------------------|\n"
+	     << "|----Congratulations on winning the game \"Maze\"!----|\n"
+	     << "|-----------Game created by TheIzvorg---------------|\n"
+	     << "|---------------------------------------------------|\n";
 }
 
 bool DeadEnd(int x, int y, Options settings) {
@@ -251,16 +230,13 @@ int main() {
 	setlocale(0, "");
 
 	Options settings;
-	// Текстуры игры
 	settings.score = 0;
 	settings.Counter = 0;
 	settings.mapWallTexture = '#';
 	settings.mapFieldTexture = '.';
-	// Цвет текстур
 	settings.wallColor = 15;
 	settings.fieldColor = 8;
-	// Игрок
-	settings.playerModel = 'о';
+	settings.playerModel = 'Г®';
 	settings.playerColor = 13;
 	settings.itemModel = 'P';
 	settings.itemColor = 14;
@@ -289,11 +265,10 @@ int main() {
 		}
 		
 	}
-	// Карта
 	settings.Map[settings.playerX][settings.playerY] = 3;
 
-	SetConsoleTitle(L"Лабиринт");
-	// Отключение курсора
+	SetConsoleTitle(L"Maze");
+	// Cursor disable
 	void* handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO structCursorInfo;
 	GetConsoleCursorInfo(handle, &structCursorInfo);
@@ -321,7 +296,6 @@ int main() {
 			break;
 		}
 		movement(settings);
-		//enemyMove(settings);
 	}
 
 	int _; cin >> _;
