@@ -229,6 +229,9 @@ int main() {
 	setlocale(0, "");
 
 	Options settings;
+	/// <summary>
+	/// А здесь будет русский?
+	/// </summary>
 	settings.score = 0;
 	settings.Counter = 0;
 	settings.mapWallTexture = '#';
